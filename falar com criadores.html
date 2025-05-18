@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>LaranjaChat</title>
+  <title>Login WhatsApp Laranja</title>
   <style>
     body {
       margin: 0;
@@ -14,36 +14,62 @@
       height: 100vh;
     }
 
-    .whatsapp {
+    .container {
       width: 360px;
-      height: 600px;
-      background-color: #fff;
+      background: white;
       border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
       overflow: hidden;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
-      display: flex;
+    }
+
+    .login, .chat {
+      padding: 20px;
+      display: none;
       flex-direction: column;
+      height: 100%;
+    }
+
+    .login.active, .chat.active {
+      display: flex;
+    }
+
+    .login input {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+
+    .login button {
+      padding: 10px;
+      background-color: #075e54;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
     }
 
     .header {
       background-color: #075e54;
       color: white;
       padding: 15px;
+      text-align: center;
       font-weight: bold;
     }
 
     .messages {
       flex: 1;
+      background-color: #e5ddd5;
       padding: 10px;
       overflow-y: auto;
-      background-color: #e5ddd5;
     }
 
     .message {
-      margin: 10px 0;
-      padding: 10px;
       max-width: 70%;
-      border-radius: 8px;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 5px 0;
       clear: both;
     }
 
@@ -61,68 +87,90 @@
       display: flex;
       padding: 10px;
       background-color: #f0f0f0;
-      border-top: 1px solid #ddd;
     }
 
     .input-area input {
       flex: 1;
       padding: 10px;
-      border: none;
       border-radius: 20px;
+      border: 1px solid #ccc;
       outline: none;
     }
 
     .input-area button {
+      margin-left: 5px;
+      padding: 10px;
+      border-radius: 50%;
       background-color: #075e54;
       color: white;
       border: none;
-      padding: 10px 15px;
-      margin-left: 5px;
-      border-radius: 50%;
       cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-<div class="whatsapp">
-  <div class="header">Laranja 💬</div>
-  <div class="messages" id="chat">
-    <!-- Mensagens vão aparecer aqui -->
+<div class="container">
+  <div class="login active" id="loginScreen">
+    <h2>Bem-vindo ao LaranjaChat</h2>
+    <input type="text" id="username" placeholder="Digite seu nome">
+    <button onclick="startChat()">Entrar</button>
   </div>
-  <div class="input-area">
-    <input type="text" id="messageInput" placeholder="Digite uma mensagem...">
-    <button onclick="sendMessage()">➤</button>
+
+  <div class="chat" id="chatScreen">
+    <div class="header" id="chatHeader">Chat</div>
+    <div class="messages" id="chatMessages"></div>
+    <div class="input-area">
+      <input type="text" id="chatInput" placeholder="Digite uma mensagem...">
+      <button onclick="sendMessage()">➤</button>
+    </div>
   </div>
 </div>
 
 <script>
-  const chat = document.getElementById('chat');
-  const input = document.getElementById('messageInput');
+  let currentUser = '';
+
+  function startChat() {
+    const nameInput = document.getElementById('username');
+    const name = nameInput.value.trim();
+
+    if (name === '') {
+      alert('Digite um nome para entrar no chat.');
+      return;
+    }
+
+    currentUser = name;
+    document.getElementById('chatHeader').innerText = `LaranjaChat - ${currentUser}`;
+    document.getElementById('loginScreen').classList.remove('active');
+    document.getElementById('chatScreen').classList.add('active');
+  }
 
   function sendMessage() {
+    const input = document.getElementById('chatInput');
     const text = input.value.trim();
+    const chat = document.getElementById('chatMessages');
+
     if (text === '') return;
 
     const msg = document.createElement('div');
     msg.className = 'message sent';
-    msg.textContent = text;
+    msg.textContent = `${currentUser}: ${text}`;
     chat.appendChild(msg);
 
     input.value = '';
     chat.scrollTop = chat.scrollHeight;
 
-    // Resposta automática opcional
+    // Resposta automática de teste
     setTimeout(() => {
       const reply = document.createElement('div');
       reply.className = 'message received';
-      reply.textContent = 'Mensagem recebida!';
+      reply.textContent = `Castres: Recebido, ${currentUser}!`;
       chat.appendChild(reply);
       chat.scrollTop = chat.scrollHeight;
-    }, 800);
+    }, 1000);
   }
 
-  input.addEventListener('keypress', function(e) {
+  document.getElementById('chatInput').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') sendMessage();
   });
 </script>
