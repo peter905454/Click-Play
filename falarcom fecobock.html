@@ -1,37 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-         body{
+  <meta charset="UTF-8">
+  <title>Feise Bock</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #e9ebee;
+    }
 
-            background: blue;
-        }
-        input{
-     font-size: 20px;
-    padding: 15px 30px;
-    background-color: orangered;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-  }
-  input {
-background: rgb(129, 122, 122);
-  }
-  h1{
-    color: blue;
-  }
-    </style>
-       
+    .header {
+      background-color: #3b5998;
+      color: white;
+      padding: 15px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 15px;
+    }
+
+    .post-box textarea {
+      width: 100%;
+      height: 60px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 14px;
+      resize: none;
+    }
+
+    .post-box button {
+      margin-top: 10px;
+      background-color: #4267B2;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .feed {
+      margin-top: 20px;
+    }
+
+    .post {
+      background-color: #f5f6f7;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .post strong {
+      color: #333;
+    }
+  </style>
 </head>
 <body>
-        <img src="/Imagens/transferir__22_-removebg-preview.png" width="10px">
-        <br>
-        <br>
-        <br>
-        <input type="">
+
+<div class="header">Feise Bock do Laranja 🧡</div>
+
+<div class="container">
+  <div class="post-box">
+    <textarea id="postText" placeholder="No que você está pensando, Laranja?"></textarea>
+    <button onclick="addPost()">Publicar</button>
+  </div>
+
+  <div class="feed" id="feed">
+    <!-- Posts vão aparecer aqui -->
+  </div>
+</div>
+
+<script>
+  function addPost() {
+    const textArea = document.getElementById('postText');
+    const feed = document.getElementById('feed');
+    const content = textArea.value.trim();
+
+    if (content === '') return;
+
+    const post = document.createElement('div');
+    post.className = 'post';
+    post.innerHTML = `<strong>Laranja:</strong><br>${content}`;
+    
+    feed.prepend(post); // adiciona no topo
+    textArea.value = '';
+  }
+</script>
+
 </body>
 </html>
