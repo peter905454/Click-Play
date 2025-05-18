@@ -1,33 +1,131 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        body{
-            background: blue;
-        }
- body{
+  <meta charset="UTF-8">
+  <title>LaranjaChat</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #ece5dd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-            background: blue;
-        }
-        input{
-     font-size: 20px;
-    padding: 15px 30px;
-    background-color: orangered;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-  }
-  input {
-background: rgb(100, 99, 107);
-  }
-    </style>
+    .whatsapp {
+      width: 360px;
+      height: 600px;
+      background-color: #fff;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background-color: #075e54;
+      color: white;
+      padding: 15px;
+      font-weight: bold;
+    }
+
+    .messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      background-color: #e5ddd5;
+    }
+
+    .message {
+      margin: 10px 0;
+      padding: 10px;
+      max-width: 70%;
+      border-radius: 8px;
+      clear: both;
+    }
+
+    .sent {
+      background-color: #dcf8c6;
+      margin-left: auto;
+    }
+
+    .received {
+      background-color: white;
+      margin-right: auto;
+    }
+
+    .input-area {
+      display: flex;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border-top: 1px solid #ddd;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 20px;
+      outline: none;
+    }
+
+    .input-area button {
+      background-color: #075e54;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      margin-left: 5px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <img src="/Imagens/transferir__19_-removebg-preview.png" width="10px">
-    <input type="menagem">
+
+<div class="whatsapp">
+  <div class="header">Laranja 💬</div>
+  <div class="messages" id="chat">
+    <!-- Mensagens vão aparecer aqui -->
+  </div>
+  <div class="input-area">
+    <input type="text" id="messageInput" placeholder="Digite uma mensagem...">
+    <button onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script>
+  const chat = document.getElementById('chat');
+  const input = document.getElementById('messageInput');
+
+  function sendMessage() {
+    const text = input.value.trim();
+    if (text === '') return;
+
+    const msg = document.createElement('div');
+    msg.className = 'message sent';
+    msg.textContent = text;
+    chat.appendChild(msg);
+
+    input.value = '';
+    chat.scrollTop = chat.scrollHeight;
+
+    // Resposta automática opcional
+    setTimeout(() => {
+      const reply = document.createElement('div');
+      reply.className = 'message received';
+      reply.textContent = 'Mensagem recebida!';
+      chat.appendChild(reply);
+      chat.scrollTop = chat.scrollHeight;
+    }, 800);
+  }
+
+  input.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') sendMessage();
+  });
+</script>
+
 </body>
 </html>
